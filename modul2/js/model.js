@@ -1,6 +1,5 @@
 ﻿var model = {
   app: {
-    menuIsOpen: true,
     currentPage: 'draw',
   },
   inputs: {

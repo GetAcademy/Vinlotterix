@@ -17,12 +17,12 @@ function updateViewWinnersPage() {
         cssClass = '';
     }
     document.getElementById('app').innerHTML = `
-        <div class="page" id="page">
+        <div class="page">
             <div class="header" id="header">
-                <button class="knapp" onclick="visOgSkjulMeny()">☰</button> Vinlotterix 🍷
+                Vinlotterix 🍷
             </div>
-            <div class="innhold" id="innhold"></div>
-            <div class="meny" id="meny">
+            <div class="innhold">${html}</div>
+            <div class="meny">
                 <button class="knapp fixed" onclick="visPersoner()">Personer</button><br />
                 <button class="knapp fixed" onclick="visTrekninger()">Vinnere</button><br />
             </div>
