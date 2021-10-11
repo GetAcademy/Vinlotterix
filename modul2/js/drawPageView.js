@@ -2,7 +2,7 @@ function updateViewDrawPage() {
     let html = `<table>
                   <tr>
                     <td><input type="checkbox"
-                               onclick="velgAlleEllerIngen(this.checked)"
+                               onclick="selectAllOrNone(this.checked)"
                                ${getChecked(model.inputs.drawPage.selectAll)}/></td>
                     <td><b>Personer</b></td>
                     <td>
@@ -11,10 +11,10 @@ function updateViewDrawPage() {
     for (let person of model.inputs.drawPage.list) {
       html += `<tr>
                   <td><input type="checkbox"
-                             onclick="velgPerson(${person.id})" 
+                             onclick="togglePersonSelected(${person.id})" 
                              ${getChecked(person.isSelected)}"/></td>
                   <td>${person.name}</td>
-                  <td><button class="litenKnapp"  onclick="slettPerson(${person.id})">x</button></td>
+                  <td><button class="litenKnapp"  onclick="deletePerson(${person.id})">x</button></td>
                 </tr>`;
     }
     html += `<tr>
@@ -23,24 +23,24 @@ function updateViewDrawPage() {
                   <input 
                     size="10" 
                     type="text" 
-                    oninput="model.inputs.drawPage.newPersonName=this" 
+                    oninput="model.inputs.drawPage.newPersonName=this.value" 
                     value="${model.inputs.drawPage.newPersonName}"
                     />
-                  <button class="litenKnapp" onclick="leggTilPerson()">legg til person</button>
+                  <button class="litenKnapp" onclick="addPerson()">legg til person</button>
                 </td>
              </tr>
              <tr><td>&nbsp;</td></tr>
              <tr>
                 <td colspan="3">
-                  <button class="knapp" onclick="trekk()">Trekk!</button>
+                  <button class="knapp" onclick="draw()">Trekk!</button>
                   <input 
                     type="number" 
                     size="1" 
                     value="${model.inputs.drawPage.drawCount}" 
                     onchange="model.inputs.drawPage.drawCount=parseInt(this.value)"
                     />
-                  <button class="" onclick="justerAntall(1)">▲</button>
-                  <button class="" onclick="justerAntall(-1)">▼</button>
+                  <button class="" onclick="changeDrawCount(1)">▲</button>
+                  <button class="" onclick="changeDrawCount(-1)">▼</button>
                 </td>
               </tr>
             </table>`;

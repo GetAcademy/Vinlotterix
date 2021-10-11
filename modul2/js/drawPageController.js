@@ -7,14 +7,14 @@ function selectAllOrNone(selectAll) {
   }
   
   function addPerson() {
-    const name = model.inputs.drawPage.name;
+    const name = model.inputs.drawPage.newPersonName;
     const maxId = model.inputs.drawPage.list.map(p => p.id).reduce((max, value) => Math.max(max, value), -1);
-    model.personer.liste.push(
+    model.inputs.drawPage.list.push(
       { id: maxId+1, name: name, isSelected: true });
     updateView();
   }
   
-  function selectPerson(id) {
+  function togglePersonSelected(id) {
     const person = findPerson(id);
     person.isSelected = !person.isSelected;
     updateView();
@@ -27,7 +27,7 @@ function selectAllOrNone(selectAll) {
   
   function draw() {
     let count = model.inputs.drawPage.trekkAntall;
-    const selectedPeople = model.inputs.drawPage.liste.filter(p => p.isSelected);
+    const selectedPeople = model.inputs.drawPage.list.filter(p => p.isSelected);
     const indexes = Array.from(selectedPeople.keys());
     const winners = [];
     while (count-- > 0 && indexes.length > 0) {
@@ -37,18 +37,19 @@ function selectAllOrNone(selectAll) {
     }
     model.draws.unshift({
       winners: winners,
-      time: lagDatoTekstNåForLagring(),
+      time: getNowForStorage(),
       participants: selectedPeople.map(p => p.name)
     });
+    model.app.currentPage = 'winners';
     updateView();
   }
   
   function changeDrawCount(delta) {
     model.inputs.drawPage.drawCount =
-      Math.max(1, model.inputs.drawPage.trekkAntall + delta);
+      Math.max(1, model.inputs.drawPage.drawCount + delta);
     updateView();
   }
   
   function findPerson(id) {
-    return model.inputs.drawPage.liste.find(p => p.id === id);
+    return model.inputs.drawPage.list.find(p => p.id === id);
   }
