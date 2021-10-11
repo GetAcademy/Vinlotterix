@@ -6,6 +6,7 @@
     drawPage: {
       selectAll: false,
       drawCount: 1,
+      newPersonName: '',
       list: [
         { id: 100, name: 'Per', isSelected: true },
         { id: 101, name: 'Pål', isSelected: true },

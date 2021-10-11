@@ -20,7 +20,12 @@ function updateViewDrawPage() {
     html += `<tr>
                 <td></td>
                 <td colspan="3">
-                  <input size="6" type="text" id="nyPerson"/>
+                  <input 
+                    size="10" 
+                    type="text" 
+                    oninput="model.inputs.drawPage.newPersonName=this" 
+                    value="${model.inputs.drawPage.newPersonName}"
+                    />
                   <button class="litenKnapp" onclick="leggTilPerson()">legg til person</button>
                 </td>
              </tr>
@@ -28,7 +33,12 @@ function updateViewDrawPage() {
              <tr>
                 <td colspan="3">
                   <button class="knapp" onclick="trekk()">Trekk!</button>
-                  <input type="number" size="1" value="${model.inputs.drawPage.drawCount}" onchange="model.inputs.drawPage.drawCount = parseInt(this.value)"/>
+                  <input 
+                    type="number" 
+                    size="1" 
+                    value="${model.inputs.drawPage.drawCount}" 
+                    onchange="model.inputs.drawPage.drawCount=parseInt(this.value)"
+                    />
                   <button class="" onclick="justerAntall(1)">▲</button>
                   <button class="" onclick="justerAntall(-1)">▼</button>
                 </td>
@@ -36,13 +46,13 @@ function updateViewDrawPage() {
             </table>`;
     document.getElementById('app').innerHTML = `
         <div class="page">
-            <div class="header" id="header">
+            <div class="header">
                 Vinlotterix 🍷
             </div>
             <div class="innhold">${html}</div>
             <div class="meny">
-                <button class="knapp fixed" onclick="visPersoner()">Personer</button><br />
-                <button class="knapp fixed" onclick="visTrekninger()">Vinnere</button><br />
+                <button class="knapp fixed" onclick="model.app.currentPage='draw'; updateView()">Personer</button><br />
+                <button class="knapp fixed" onclick="model.app.currentPage='winners'; updateView()">Vinnere</button><br />
             </div>
         </div>  
     `;

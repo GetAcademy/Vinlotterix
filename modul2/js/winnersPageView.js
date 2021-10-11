@@ -18,13 +18,13 @@ function updateViewWinnersPage() {
     }
     document.getElementById('app').innerHTML = `
         <div class="page">
-            <div class="header" id="header">
+            <div class="header">
                 Vinlotterix 🍷
             </div>
             <div class="innhold">${html}</div>
             <div class="meny">
-                <button class="knapp fixed" onclick="visPersoner()">Personer</button><br />
-                <button class="knapp fixed" onclick="visTrekninger()">Vinnere</button><br />
+                <button class="knapp fixed" onclick="model.app.currentPage='draw'; updateView()">Personer</button><br />
+                <button class="knapp fixed" onclick="model.app.currentPage='winners'; updateView()">Vinnere</button><br />
             </div>
         </div>    
     `;

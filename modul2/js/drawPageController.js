@@ -1,54 +1,54 @@
-function velgAlleEllerIngen(alle) {
-    model.personer.velgAlle = alle;
-    for (let person of model.personer.liste) {
-      person.erValgt = alle;
+function selectAllOrNone(selectAll) {
+    model.inputs.drawPage.selectAll = selectAll;
+    for (let person of model.inputs.drawPage.list) {
+      person.isSelected = selectAll;
     }
-    visPersoner();
+    updateView();
   }
   
-  function leggTilPerson() {
-    const navn = document.getElementById('nyPerson').value;
-    const id = model.personer.liste.map(p => p.id).reduce((max, value) => Math.max(max, value), -1) + 1;
+  function addPerson() {
+    const name = model.inputs.drawPage.name;
+    const maxId = model.inputs.drawPage.list.map(p => p.id).reduce((max, value) => Math.max(max, value), -1);
     model.personer.liste.push(
-      { id: id, navn: navn, erValgt: true });
-    visPersoner();
+      { id: maxId+1, name: name, isSelected: true });
+    updateView();
   }
   
-  function velgPerson(id) {
-    const person = finnPerson(id);
-    person.erValgt = !person.erValgt;
-    visPersoner();
+  function selectPerson(id) {
+    const person = findPerson(id);
+    person.isSelected = !person.isSelected;
+    updateView();
   }
   
-  function slettPerson(id) {
-    model.personer.liste = model.personer.liste.filter(p => p.id !== id);
-    visPersoner();
+  function deletePerson(id) {
+    model.inputs.drawPage.list = model.inputs.drawPage.list.filter(p => p.id !== id);
+    updateView();
   }
   
-  function trekk() {
-    let antall = model.personer.trekkAntall;
-    const personerListe = model.personer.liste.filter(p => p.erValgt);
-    const indekser = Array.from(personerListe.keys());
-    const vinnere = [];
-    while (antall-- > 0 && indekser.length > 0) {
-      const tilfeldigIndeks = Math.floor(Math.random() * indekser.length);
-      const indeks = indekser.splice(tilfeldigIndeks, 1);
-      vinnere.push(personerListe[indeks].navn);
+  function draw() {
+    let count = model.inputs.drawPage.trekkAntall;
+    const selectedPeople = model.inputs.drawPage.liste.filter(p => p.isSelected);
+    const indexes = Array.from(selectedPeople.keys());
+    const winners = [];
+    while (count-- > 0 && indexes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * indexes.length);
+      const index = indexes.splice(randomIndex, 1);
+      winners.push(selectedPeople[index].name);
     }
-    model.trekninger.unshift({
-      vinnere: vinnere,
-      tid: lagDatoTekstNåForLagring(),
-      deltakere: personerListe.map(p => p.navn)
+    model.draws.unshift({
+      winners: winners,
+      time: lagDatoTekstNåForLagring(),
+      participants: selectedPeople.map(p => p.name)
     });
-    visTrekninger();
+    updateView();
   }
   
-  function justerAntall(delta) {
-    model.personer.trekkAntall =
-      Math.max(1, model.personer.trekkAntall + delta);
-    visPersoner();
+  function changeDrawCount(delta) {
+    model.inputs.drawPage.drawCount =
+      Math.max(1, model.inputs.drawPage.trekkAntall + delta);
+    updateView();
   }
   
-  function finnPerson(id) {
-    return model.personer.liste.filter(p => p.id === id)[0];
+  function findPerson(id) {
+    return model.inputs.drawPage.liste.find(p => p.id === id);
   }
