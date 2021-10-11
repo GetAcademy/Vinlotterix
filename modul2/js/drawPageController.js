@@ -26,7 +26,7 @@ function selectAllOrNone(selectAll) {
   }
   
   function draw() {
-    let count = model.inputs.drawPage.trekkAntall;
+    let count = model.inputs.drawPage.drawCount;
     const selectedPeople = model.inputs.drawPage.list.filter(p => p.isSelected);
     const indexes = Array.from(selectedPeople.keys());
     const winners = [];
